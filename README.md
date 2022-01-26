@@ -4,6 +4,7 @@ Python application that helps with time management
 ## Table of contents
 * [General info](#general-info)
 * [Technologies](#technologies)
+* [Functionalities](#functionalities)
 
 ## General info
 This project is supposed to allow user to track work progress and organize time.
@@ -12,7 +13,7 @@ This project is supposed to allow user to track work progress and organize time.
 Project is created with:
 * Python version: 3.9
 
-Functionalities:
+## Functionalities
 - GUI made with tkinter library
 - Login window
 - Window with task organizer
