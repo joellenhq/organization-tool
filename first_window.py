@@ -26,7 +26,43 @@ label.place(x = 120, y = 100)
 def login():
     username = username_entry.get()
     password = password_entry.get()
-    print("login clicked!")
+    #print("login clicked!")
+    user_found = False
+    login_database = open("login_info.txt", "r")
+    login_data = (username+","+password+"\n")
+    for line in login_database:
+        if line == login_data:
+            user_found = True
+            break
+    if user_found:
+        info = "login successful"
+    else:
+        info = "wrong username or password"
+
+def register(username,password,password_confirmation):
+    login_database = open("login_info.txt", "r")
+
+    if password == password_confirmation:
+        if username in login_database:
+            info = "username is already taken, try again"
+        else:
+            info = "registered successfully!"
+            login_database = login_database = open("database.txt","a")
+            login_database.write(username+","+password+"\n")
+    else:
+        info = "passwords do not match, try again"
+    print(info)
+
+register_button = Button(window,
+                text = 'register',
+                command = register,
+                bg = 'white',
+                activebackground = 'green',
+                bd = 5,
+                fg = 'darkblue',
+                activeforeground = 'darkblue',
+                font = 8,
+                state = DISABLED)
 
 login_button = Button(window,
                 text = 'login',
@@ -63,5 +99,6 @@ username_entry.place(x = 170, y = 150)
 password_entry.place(x = 170, y = 180)
 login_button.place(x = 170, y = 210)
 guest_button.place(x = 250, y = 210)
+register_button.place(x = 220, y = 260)
 
 window.mainloop()
