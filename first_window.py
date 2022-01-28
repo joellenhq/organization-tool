@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import filedialog
 
 window = Tk()
 window.geometry("500x500")
@@ -36,10 +37,17 @@ def login():
             break
     if user_found:
         info = "login successful"
+        user_window = Tk()
+        window.destroy()    #close login window
     else:
         info = "wrong username or password"
+    print(info)
 
-def register(username,password,password_confirmation):
+def open_register_window():
+    register_window = Toplevel()
+
+
+def register(username, password, password_confirmation):
     login_database = open("login_info.txt", "r")
 
     if password == password_confirmation:
@@ -62,7 +70,7 @@ register_button = Button(window,
                 fg = 'darkblue',
                 activeforeground = 'darkblue',
                 font = 8,
-                state = DISABLED)
+                state = ACTIVE)
 
 login_button = Button(window,
                 text = 'login',
@@ -73,10 +81,11 @@ login_button = Button(window,
                 fg = 'darkblue',
                 activeforeground = 'darkblue',
                 font = 8,
-                state = DISABLED)
+                state = ACTIVE)
 
 def enter_as_guest():
-    pass
+    guest_window = Toplevel()
+
 
 guest_button = Button(window,
                 text = 'login as guest',
