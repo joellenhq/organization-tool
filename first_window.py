@@ -1,5 +1,6 @@
 from tkinter import *
-from tkinter import filedialog
+from tkinter import ttk
+from time import *
 
 window = Tk()
 window.geometry("500x500")
@@ -39,11 +40,129 @@ def login():
         info = "login successful"
         user_window = Tk()
         window.destroy()    #close login window
+        user_window.geometry("500x500")
+        user_window.title("Organization tool")
+
+        label = Label(user_window,
+                      text='Choose an option!',
+                      font=('Verdana', 16, 'bold'),
+                      fg='darkblue',
+                      bg=color_metallic_silver,
+                      relief=SUNKEN,
+                      bd=4,
+                      padx=4,
+                      pady=10)
+
+        label.pack()
+
+        def set_timer():
+
+            def start_counting():
+                minutes_to_count = minutes.get()
+                if minutes_to_count > 0 and minutes_to_count < 60:
+                    info = "proper settings"
+                else:
+                    info = "wrong time settings"
+
+
+            timer_window = Toplevel()
+            minutes = Entry(window,
+                       font = ('Verdana',12))
+            start_timer = Button(timer_window,
+                                 text='timer',
+                                 command=start_counting,
+                                 bg='white',
+                                 bd=5,
+                                 fg='darkblue',
+                                 activeforeground='darkblue',
+                                 font=12,
+                                 state=ACTIVE,
+                                 padx=18,
+                                 pady=16)
+            start_timer.pack()
+
+
+
+        def see_tasks():
+            task_window = Toplevel()
+
+        def see_progress():
+            progress_window = Toplevel()
+            notebook = ttk.Notebook(progress_window)
+            tab1 = Frame(notebook)
+            tab2 = Frame(notebook)
+
+            notebook.add(tab1, text="task1")
+            notebook.add(tab2, text="task2")
+            notebook.pack(expand=True, fill="both")
+
+            task1_label = Label(tab1, text="see progress of task1").pack()
+            task2_label = Label(tab2, text="see progress of task2").pack()
+
+            #grid widget in a loop could be good idea
+
+
+        def see_categories():
+            categories_window = Toplevel()
+
+
+        calendar_button = Button(user_window,
+                                 text='timer',
+                                 command=set_timer,
+                                 bg='white',
+                                 bd=5,
+                                 fg='darkblue',
+                                 activeforeground='darkblue',
+                                 font=12,
+                                 state=ACTIVE,
+                                 padx=18,
+                                 pady=16)
+
+        list_button = Button(user_window,
+                             text='list',
+                             command=see_tasks,
+                             bg='white',
+                             bd=5,
+                             fg='darkblue',
+                             activeforeground='darkblue',
+                             font=12,
+                             state=ACTIVE,
+                             padx=38,
+                             pady=16)
+
+        progress_button = Button(user_window,
+                                 text='progress',
+                                 command=see_progress,
+                                 bg='white',
+                                 bd=5,
+                                 fg='darkblue',
+                                 activeforeground='darkblue',
+                                 font=12,
+                                 state=ACTIVE,
+                                 padx=16,
+                                 pady=16)
+
+        categories_button = Button(user_window,
+                                   text='categories',
+                                   command=see_categories,
+                                   bg='white',
+                                   bd=5,
+                                   fg='darkblue',
+                                   activeforeground='darkblue',
+                                   font=12,
+                                   state=ACTIVE,
+                                   padx=10,
+                                   pady=16)
+
+        calendar_button.pack()
+        list_button.pack()
+        progress_button.pack()
+        categories_button.pack()
+
+
     else:
         info = "wrong username or password"
     print(info)
-
-
 
 def open_register_window():
 
@@ -89,10 +208,6 @@ def open_register_window():
     r_password_entry.place(x=170, y=180)
     r_password_c_entry.place(x=170, y=210)
     register_button_2.place(x=220, y=260)
-
-
-
-
 
 register_button = Button(window,
                 text = 'register',
