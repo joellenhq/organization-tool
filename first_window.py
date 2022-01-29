@@ -43,27 +43,60 @@ def login():
         info = "wrong username or password"
     print(info)
 
+
+
 def open_register_window():
+    
+    def register():
+        username = r_username_entry.get()
+        password = r_password_entry.get()
+        password_confirmation = r_password_c_entry.get()
+        login_database = open("login_info.txt", "r")
+
+        if password == password_confirmation:
+            if username in login_database:
+                info = "username is already taken, try again"
+            else:
+                info = "registered successfully!"
+                login_database = login_database = open("database.txt", "a")
+                login_database.write(username + "," + password + "\n")
+        else:
+            info = "passwords do not match, try again"
+        print(info)
+
     register_window = Toplevel()
 
+    register_button_2 = Button(register_window,
+                             text='register',
+                             command=register,
+                             bg='white',
+                             activebackground='green',
+                             bd=5,
+                             fg='darkblue',
+                             activeforeground='darkblue',
+                             font=8,
+                             state=ACTIVE)
+    r_username_entry = Entry(register_window,
+                           font=('Verdana', 12))
+    r_password_c_entry = Entry(register_window,
+                           font=('Verdana', 12),
+                           show='*')
+    r_password_entry = Entry(register_window,
+                           font=('Verdana', 12),
+                           show='*')
 
-def register(username, password, password_confirmation):
-    login_database = open("login_info.txt", "r")
+    r_username_entry.place(x=170, y=150)
+    r_password_entry.place(x=170, y=180)
+    r_password_c_entry.place(x=170, y=210)
+    register_button_2.place(x=220, y=260)
 
-    if password == password_confirmation:
-        if username in login_database:
-            info = "username is already taken, try again"
-        else:
-            info = "registered successfully!"
-            login_database = login_database = open("database.txt","a")
-            login_database.write(username+","+password+"\n")
-    else:
-        info = "passwords do not match, try again"
-    print(info)
+
+
+
 
 register_button = Button(window,
                 text = 'register',
-                command = register,
+                command = open_register_window(),
                 bg = 'white',
                 activebackground = 'green',
                 bd = 5,
@@ -99,7 +132,7 @@ guest_button = Button(window,
                 state = ACTIVE)
 
 username_entry = Entry(window,
-                       font = ('Verdana',12),)
+                       font = ('Verdana',12))
 password_entry = Entry(window,
                        font = ('Verdana',12),
                        show = '*')
