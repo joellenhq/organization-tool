@@ -46,7 +46,7 @@ def login():
 
 
 def open_register_window():
-    
+
     def register():
         username = r_username_entry.get()
         password = r_password_entry.get()
@@ -58,7 +58,7 @@ def open_register_window():
                 info = "username is already taken, try again"
             else:
                 info = "registered successfully!"
-                login_database = login_database = open("database.txt", "a")
+                login_database = login_database = open("login_info.txt", "a")
                 login_database.write(username + "," + password + "\n")
         else:
             info = "passwords do not match, try again"
