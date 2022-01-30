@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import ttk
-from time import *
+import time
+import os
 
 window = Tk()
 window.geometry("500x500")
@@ -58,15 +59,25 @@ def login():
         def set_timer():
 
             def start_counting():
-                minutes_to_count = minutes.get()
+                minutes_to_count = int(minutes.get())
                 if minutes_to_count > 0 and minutes_to_count < 60:
                     info = "proper settings"
+                    start = time.time()
+                    end = time.time()
+                    difference = (start - end)/60
+                    while abs(difference) < minutes_to_count:
+                        end = time.time()
+                        difference = (start - end)/60
+                        print(difference)
+                        #improve -> set frequency of the loop
+
+                    info = "time has passed"
                 else:
                     info = "wrong time settings"
-
+                print(info)
 
             timer_window = Toplevel()
-            minutes = Entry(window,
+            minutes = Entry(timer_window,
                        font = ('Verdana',12))
             start_timer = Button(timer_window,
                                  text='timer',
@@ -79,6 +90,7 @@ def login():
                                  state=ACTIVE,
                                  padx=18,
                                  pady=16)
+            minutes.pack()
             start_timer.pack()
 
 
@@ -105,8 +117,11 @@ def login():
         def see_categories():
             categories_window = Toplevel()
 
+            file = username+".txt"
+            if not os.path.exists(file):
+                with open(file, 'w'): pass
 
-        calendar_button = Button(user_window,
+        timer_button = Button(user_window,
                                  text='timer',
                                  command=set_timer,
                                  bg='white',
@@ -115,7 +130,7 @@ def login():
                                  activeforeground='darkblue',
                                  font=12,
                                  state=ACTIVE,
-                                 padx=18,
+                                 padx=30,
                                  pady=16)
 
         list_button = Button(user_window,
@@ -154,7 +169,7 @@ def login():
                                    padx=10,
                                    pady=16)
 
-        calendar_button.pack()
+        timer_button.pack()
         list_button.pack()
         progress_button.pack()
         categories_button.pack()
@@ -175,15 +190,18 @@ def open_register_window():
         if password == password_confirmation:
             if username in login_database:
                 info = "username is already taken, try again"
+            elif len(username)==0 or len(password)<3 or len(password_confirmation)<3:
+                info = "wrong registration data"
             else:
                 info = "registered successfully!"
-                login_database = login_database = open("login_info.txt", "a")
+                login_database = open("login_info.txt", "a")
                 login_database.write(username + "," + password + "\n")
         else:
             info = "passwords do not match, try again"
         print(info)
 
     register_window = Toplevel()
+    register_window.geometry("400x400")
 
     register_button_2 = Button(register_window,
                              text='register',
@@ -213,10 +231,10 @@ register_button = Button(window,
                 text = 'register',
                 command = open_register_window(),
                 bg = 'white',
-                activebackground = 'green',
+                #activebackground = 'green',
                 bd = 5,
                 fg = 'darkblue',
-                activeforeground = 'darkblue',
+                #activeforeground = 'darkblue',
                 font = 8,
                 state = ACTIVE)
 
