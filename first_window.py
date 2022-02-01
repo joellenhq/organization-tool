@@ -57,7 +57,7 @@ def login():
         label.pack()
 
         def set_timer():
-
+            difference = 1000
             def start_counting():
                 minutes_to_count = int(minutes.get())
                 if minutes_to_count > 0 and minutes_to_count < 60:
@@ -69,6 +69,7 @@ def login():
                         end = time.time()
                         difference = (start - end)/60
                         print(difference)
+                        time.sleep(60)
                         #improve -> set frequency of the loop
 
                     info = "time has passed"
@@ -90,9 +91,18 @@ def login():
                                  state=ACTIVE,
                                  padx=18,
                                  pady=16)
+            time_label = Label(timer_window,
+                               text = difference,
+                               font = ('Verdana',10,'bold'),
+                               fg = 'darkblue',
+                               bg = color_metallic_silver,
+                               relief = SUNKEN,
+                               bd = 4,
+                               padx = 4,
+                               pady = 10)
             minutes.pack()
             start_timer.pack()
-
+            time_label.pack()
 
 
         def see_tasks():
