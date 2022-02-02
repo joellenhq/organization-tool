@@ -1,5 +1,5 @@
 # organization-tool
-Python application that helps with time management
+Python application that helps with time management - currently in progress
 
 ## Table of contents
 * [General info](#general-info)
