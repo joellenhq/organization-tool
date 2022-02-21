@@ -5,6 +5,7 @@ Python application that helps with time management - currently in progress
 * [General info](#general-info)
 * [Technologies](#technologies)
 * [Functionalities](#functionalities)
+* [Progress](#progress)
 
 ## General info
 This project is supposed to allow user to track work progress and organize time.
@@ -19,3 +20,7 @@ Project is created with:
 - Window with task organizer
 - User customized application (for each user there are specified tasks and categories) 
 
+## Progress
+- Login functionality - based on txt file
+- Register as new user
+- Part of user window
