@@ -1,10 +1,11 @@
 from tkinter import *
 from tkinter import ttk
+import tkinter.messagebox
 import time
 import os
 
 window = Tk()
-window.geometry("500x500")
+window.geometry("550x400")
 window.title("Organization tool")
 
 color_metallic_silver = '#BCC6CC'
@@ -57,7 +58,9 @@ def login():
         label.pack()
 
         def set_timer():
-            difference = 1000
+            root = Tk()
+            difference_1 = StringVar()
+            difference_1.set("      ")
             def start_counting():
                 minutes_to_count = int(minutes.get())
                 if minutes_to_count > 0 and minutes_to_count < 60:
@@ -70,6 +73,9 @@ def login():
                         difference = (start - end)/60
                         print(difference)
                         time.sleep(60)
+
+                        difference_1.set(" "+difference)
+                        timer_window.update_idletasks()
                         #improve -> set frequency of the loop
 
                     info = "time has passed"
@@ -92,7 +98,7 @@ def login():
                                  padx=18,
                                  pady=16)
             time_label = Label(timer_window,
-                               text = difference,
+                               text = difference_1,
                                font = ('Verdana',10,'bold'),
                                fg = 'darkblue',
                                bg = color_metallic_silver,
@@ -103,7 +109,6 @@ def login():
             minutes.pack()
             start_timer.pack()
             time_label.pack()
-
 
         def see_tasks():
             task_window = Toplevel()
@@ -122,7 +127,6 @@ def login():
             task2_label = Label(tab2, text="see progress of task2").pack()
 
             #grid widget in a loop could be good idea
-
 
         def see_categories():
             categories_window = Toplevel()
@@ -186,11 +190,14 @@ def login():
 
 
     else:
-        info = "wrong username or password"
+        info = "Wrong username or password."
+        tkinter.messagebox.showinfo("Error", info)
     print(info)
 
 def open_register_window():
 
+    register_window = Toplevel(window)
+    register_window.geometry("400x200")
     def register():
         username = r_username_entry.get()
         password = r_password_entry.get()
@@ -198,20 +205,22 @@ def open_register_window():
         login_database = open("login_info.txt", "r")
 
         if password == password_confirmation:
-            if username in login_database:
-                info = "username is already taken, try again"
-            elif len(username)==0 or len(password)<3 or len(password_confirmation)<3:
-                info = "wrong registration data"
-            else:
-                info = "registered successfully!"
-                login_database = open("login_info.txt", "a")
-                login_database.write(username + "," + password + "\n")
+            for line in login_database:
+                username_db, passwd = line.split(",")
+                print(username)
+                if username == username_db:
+                    info = "Username is already taken, try again"
+                elif len(username)==0:
+                    info = "Wrong registration data! Username is empty!"
+                elif len(password)<3 or len(password_confirmation)<3:
+                    info = "Wrong registration data! Password must have at least 3 characters"
+                else:
+                    info = "Registered successfully! You can login now"
+                    login_database = open("login_info.txt", "a")
+                    login_database.write(username + "," + password + "\n")
         else:
-            info = "passwords do not match, try again"
-        print(info)
-
-    register_window = Toplevel()
-    register_window.geometry("400x400")
+            info = "Passwords do not match, try again"
+        tkinter.messagebox.showinfo("Registration", info)
 
     register_button_2 = Button(register_window,
                              text='register',
@@ -231,22 +240,39 @@ def open_register_window():
     r_password_entry = Entry(register_window,
                            font=('Verdana', 12),
                            show='*')
+    r_username_label = Label(register_window,
+                             text="username: ",
+                             font=('Arial', 10, 'bold'),
+                             fg="black"
+                           )
+    r_password_label = Label(register_window,
+                             text="password: ",
+                             font=('Arial', 10, 'bold'),
+                             fg="black")
+    r_password_c_label = Label(register_window,
+                               text="confirm password: ",
+                               font=('Arial', 10, 'bold'),
+                               fg="black")
 
-    r_username_entry.place(x=170, y=150)
-    r_password_entry.place(x=170, y=180)
-    r_password_c_entry.place(x=170, y=210)
-    register_button_2.place(x=220, y=260)
+    r_username_entry.place(x=170, y=50)
+    r_password_entry.place(x=170, y=80)
+    r_password_c_entry.place(x=170, y=110)
+    r_username_label.place(x=80, y=50)
+    r_password_label.place(x=80, y=80)
+    r_password_c_label.place(x=50, y=110)
+    register_button_2.place(x=200, y=140)
 
 register_button = Button(window,
                 text = 'register',
-                command = open_register_window(),
+                command = open_register_window,
+                activebackground = 'green',
+                activeforeground = 'black',
                 bg = 'white',
-                #activebackground = 'green',
-                bd = 5,
                 fg = 'darkblue',
-                #activeforeground = 'darkblue',
+                highlightcolor = "green",
+                bd = 5,
                 font = 8,
-                state = ACTIVE)
+                state = NORMAL)
 
 login_button = Button(window,
                 text = 'login',
@@ -255,13 +281,24 @@ login_button = Button(window,
                 activebackground = 'green',
                 bd = 5,
                 fg = 'darkblue',
+                highlightcolor = "green",
                 activeforeground = 'darkblue',
                 font = 8,
-                state = ACTIVE)
+                state = NORMAL)
 
 def enter_as_guest():
     guest_window = Toplevel()
+    r_username_entry = Entry(guest_window,
+                           font=('Verdana', 12))
+    r_password_c_entry = Entry(guest_window,
+                           font=('Verdana', 12),
+                           show='*')
+    r_password_entry = Entry(guest_window,
+                           font=('Verdana', 12),
+                           show='*')
 
+    r_username_entry.place(x=170, y=150)
+    r_password_entry.place(x=170, y=180)
 
 guest_button = Button(window,
                 text = 'login as guest',
@@ -271,17 +308,32 @@ guest_button = Button(window,
                 bd = 5,
                 fg = 'darkblue',
                 activeforeground = 'darkblue',
+                highlightcolor = "green",
                 font = 8,
-                state = ACTIVE)
+                state = NORMAL)
 
 username_entry = Entry(window,
-                       font = ('Verdana',12))
+                       font = ('Verdana',12),
+                       width = 21)
 password_entry = Entry(window,
                        font = ('Verdana',12),
-                       show = '*')
+                       show = '*',
+                       width = 21)
+username_label = Label(text = "username: ",
+                       font = ('Arial',10,'bold'),
+                       fg = "black",
+                       #bg = "white",
+                       #relief = RAISED,
+                       #bd = 3
+                       )
+password_label = Label(text = "password: ",
+                       font = ('Arial',10,'bold'),
+                       fg = "black",)
 
-username_entry.place(x = 170, y = 150)
-password_entry.place(x = 170, y = 180)
+username_entry.place(x = 200, y = 150)
+password_entry.place(x = 200, y = 180)
+username_label.place(x = 120, y = 150)
+password_label.place(x = 120, y = 180)
 login_button.place(x = 170, y = 210)
 guest_button.place(x = 250, y = 210)
 register_button.place(x = 220, y = 260)
