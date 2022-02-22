@@ -22,5 +22,25 @@ Project is created with:
 
 ## Progress
 - Login functionality - based on txt file
+
+<p align="center">
+    <img src="/screenshots/window.png" width="600px"</img> 
+</p>
+
 - Register as new user
+
+<p align="center">
+	<img src="/screenshots/register_window.png" width="500px"></img>
+</p>
+
+Possible outcomes:
+
+<p align="center">
+	<img src="screenshots/possible_outcomes.png"></img>
+</p>
+
 - Part of user window
+
+<p align="center">
+	<img src="screenshots/user_window.png"></img>
+</p>
