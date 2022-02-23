@@ -3,6 +3,7 @@ from tkinter import ttk
 import tkinter.messagebox
 import time
 import os
+import random
 
 window = Tk()
 window.geometry("550x400")
@@ -14,8 +15,12 @@ window.config(background = color_metallic_silver)
 icon = PhotoImage(file='icon.png')
 window.iconphoto(True, icon)
 
+frame = Frame(window, width=500, height=300)
+#self.root.grid_propagate(False)
+frame.pack()
+
 welcome_text = 'This is a tool to help you manage time!'
-label = Label(window,
+label = Label(frame,
               text = welcome_text,
               font = ('Verdana',10,'bold'),
               fg = 'darkblue',
@@ -26,6 +31,12 @@ label = Label(window,
               pady = 10)
 
 label.place(x = 120, y = 100)
+x = BooleanVar()
+
+def login1(event):
+    login()
+
+window.bind("<Return>", login1)
 
 def login():
     username = username_entry.get()
@@ -55,7 +66,7 @@ def login():
                       padx=4,
                       pady=10)
 
-        label.pack()
+        label.place(x=130,y=60)
 
         def set_timer():
             root = Tk()
@@ -83,7 +94,7 @@ def login():
                     info = "wrong time settings"
                 print(info)
 
-            timer_window = Toplevel()
+            timer_window = Toplevel(user_window)
             minutes = Entry(timer_window,
                        font = ('Verdana',12))
             start_timer = Button(timer_window,
@@ -110,11 +121,34 @@ def login():
             start_timer.pack()
             time_label.pack()
 
+        motivational_text = ["good job!", "you are doing great!", "keep working!", "nothing is impossible", "I believe in you"]
+        def display():
+
+            #n = random.random()
+            #n = round(n*(len(motivational_text)-1))
+            n = random.randint(0,len(motivational_text)-1)
+            if(x.get()):
+                print(motivational_text(n))
+
         def see_tasks():
-            task_window = Toplevel()
+            task1 = "it's supposed to get user task"
+            task_window = Toplevel(user_window)
+            check_button = Checkbutton(task_window,
+                                       text = task1,
+                                       variable = x,
+                                       onvalue = True,
+                                       offvalue = False,
+                                       command = display,
+                                       font = ("Arial",14),
+                                       fg = "#00FF00",
+                                       bg = "black",
+                                       activeforeground = "#00FF00",
+                                       activebackground = "black",
+                                       padx = 10,
+                                       pady = 13)
 
         def see_progress():
-            progress_window = Toplevel()
+            progress_window = Toplevel(user_window)
             notebook = ttk.Notebook(progress_window)
             tab1 = Frame(notebook)
             tab2 = Frame(notebook)
@@ -129,7 +163,7 @@ def login():
             #grid widget in a loop could be good idea
 
         def see_categories():
-            categories_window = Toplevel()
+            categories_window = Toplevel(user_window)
 
             file = username+".txt"
             if not os.path.exists(file):
@@ -183,10 +217,10 @@ def login():
                                    padx=10,
                                    pady=16)
 
-        timer_button.pack()
-        list_button.pack()
-        progress_button.pack()
-        categories_button.pack()
+        timer_button.place(x=185,y=125)
+        list_button.place(x=185,y=195)
+        progress_button.place(x=185,y=265)
+        categories_button.place(x=185,y=335)
 
 
     else:
@@ -218,6 +252,8 @@ def open_register_window():
                     info = "Registered successfully! You can login now"
                     login_database = open("login_info.txt", "a")
                     login_database.write(username + "," + password + "\n")
+                    register_window.destroy()
+                    break
         else:
             info = "Passwords do not match, try again"
         tkinter.messagebox.showinfo("Registration", info)
@@ -262,7 +298,7 @@ def open_register_window():
     r_password_c_label.place(x=50, y=110)
     register_button_2.place(x=200, y=140)
 
-register_button = Button(window,
+register_button = Button(frame,
                 text = 'register',
                 command = open_register_window,
                 activebackground = 'green',
@@ -274,7 +310,7 @@ register_button = Button(window,
                 font = 8,
                 state = NORMAL)
 
-login_button = Button(window,
+login_button = Button(frame,
                 text = 'login',
                 command = login,
                 bg = 'white',
@@ -300,7 +336,7 @@ def enter_as_guest():
     r_username_entry.place(x=170, y=150)
     r_password_entry.place(x=170, y=180)
 
-guest_button = Button(window,
+guest_button = Button(frame,
                 text = 'login as guest',
                 command = enter_as_guest,
                 bg = 'white',
@@ -312,21 +348,23 @@ guest_button = Button(window,
                 font = 8,
                 state = NORMAL)
 
-username_entry = Entry(window,
+username_entry = Entry(frame,
                        font = ('Verdana',12),
                        width = 21)
-password_entry = Entry(window,
+password_entry = Entry(frame,
                        font = ('Verdana',12),
                        show = '*',
                        width = 21)
-username_label = Label(text = "username: ",
+username_label = Label(frame,
+                       text = "username: ",
                        font = ('Arial',10,'bold'),
                        fg = "black",
                        #bg = "white",
                        #relief = RAISED,
                        #bd = 3
                        )
-password_label = Label(text = "password: ",
+password_label = Label(frame,
+                       text = "password: ",
                        font = ('Arial',10,'bold'),
                        fg = "black",)
 
